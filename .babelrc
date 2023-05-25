@@ -6,7 +6,16 @@
       ]
     }
   },
-  "presets": ["es2015"],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ],
   "plugins": [
     "add-module-exports",
     "transform-object-assign",
