@@ -50,7 +50,7 @@ gulp.task('eslint', () => (
     .pipe(eslint.format())
 ));
 
-gulp.task('build:dev', ['eslint'], () => (
+gulp.task('build:dev',gulp.series('eslint', () => (
   gulp.src('src/**/*.js', { read: true })
     .pipe(order(OrderedFileList, { base: 'src/' }))
     .pipe(babel(BabelOptions))
@@ -59,16 +59,16 @@ gulp.task('build:dev', ['eslint'], () => (
     })
     .pipe(concat('ppr.js'))
     .pipe(gulp.dest('dist'))
-));
+)));
 
-gulp.task('build:dist', [], () => (
+gulp.task('build:dist', gulp.series(() => (
   gulp.src('src/**/*.js')
     .pipe(order(OrderedFileList))
     .pipe(babel(BabelOptions))
     .pipe(uglify({ compress: { drop_console: true } }))
     .pipe(concat('ppr.min.js'))
     .pipe(gulp.dest('dist'))
-));
+)));
 
 gulp.task('test', (done) => {
   new KarmaServer({
